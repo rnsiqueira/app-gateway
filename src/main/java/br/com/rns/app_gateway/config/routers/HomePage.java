@@ -11,30 +11,19 @@ import org.springframework.context.annotation.Configuration;
 public class HomePage {
 
     private static final Logger logger = LogManager.getLogger(HomePage.class);
-    private RouteLocator route;
 
 
     @Bean
     public RouteLocator homePageRoutes(RouteLocatorBuilder builder) {
         logger.info("Starting home page routes configuration...");
 
-        route = builder.routes()
-                .route("router-home", p -> p
+        return builder.routes()
+                .route("get", p -> p.path("/get").uri("http://httpbin.org:80"))
+                .route("path_route", p -> p
                         .path("/store/home")
-                        .filters(f -> f.setStatus(401))
+                        .filters(f -> f.redirect(302, "https://www.youtube.com/watch?v=ODkctLpqrFA&list=RDODkctLpqrFA&start_radio=1"))
                         .uri("http://httpbin.org:80"))
-//                .route("router-home-redirect", p -> p
-//                        .host("https://localhost:3000")
-//                        .filters(f -> f.circuitBreaker(c -> c.setName("homeCircuitBreaker").setFallbackUri("forward:/store/home"))
-//                                .setStatus(401))
-//                        .uri("http://httpbin.org:80"))
                 .build();
 
-
-        return route;
-    }
-
-    public RouteLocator getRoute() {
-        return route;
     }
 }
