@@ -1,8 +1,11 @@
-package br.com.rns.app_gateway.config;
+package br.com.rns.app_gateway.filter;
 
-import br.com.rns.app_gateway.domain.FactoryObeverserRequest;
+import br.com.rns.app_gateway.Repository.RequestRepository;
+import br.com.rns.app_gateway.domain.MonitoringData;
+import br.com.rns.app_gateway.utils.RequestFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -16,19 +19,27 @@ import java.util.Objects;
 public class GatewayGlobalFilter implements GlobalFilter, Ordered {
 
     private static final Logger logger = LogManager.getLogger(GatewayGlobalFilter.class);
+    @Autowired
+    private RequestRepository requestRepository;
 
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        logger.info("Starting global filter, saving request data...");
         var request = exchange.getRequest();
         var ipAddress = request.getHeaders().getFirst("X-Forwarded-Host");
-        if(Objects.isNull(ipAddress)) {
+        if (Objects.isNull(ipAddress)) {
             ipAddress = request.getRemoteAddress().getAddress().getHostAddress();
         }
-        var factoryObeverserRequest = new FactoryObeverserRequest(ipAddress,
+        var monitoringData = new MonitoringData(ipAddress,
                 request.getHeaders().getFirst("user-agent"), request.getURI());
 
-        logger.info("Request: " + factoryObeverserRequest);
+        logger.info(String.format("persisting request data in database: %s", monitoringData));
+        try {
+            requestRepository.save(RequestFactory.createRequestDatail(monitoringData));
+        } catch (Exception e) {
+            logger.error("Error persisting request data in database", e);
+        }
 
         return chain.filter(exchange);
     }

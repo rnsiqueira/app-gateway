@@ -1,0 +1,13 @@
+#Esse arquivo só existe para facilitar uma subida local da imagem, não é utilizada em PROD
+version: '3'
+
+services:
+  database:
+    container_name: "mongoDb_for_gateway"
+    restart: always
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoUser
+      - MONGO_INITDB_ROOT_PASSWORD=mongoPass
+    ports:
+    - "27017:27017"

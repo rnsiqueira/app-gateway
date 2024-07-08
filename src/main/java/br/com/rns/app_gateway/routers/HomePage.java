@@ -1,4 +1,4 @@
-package br.com.rns.app_gateway.config.routers;
+package br.com.rns.app_gateway.routers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

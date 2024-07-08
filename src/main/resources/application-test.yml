@@ -1,17 +1,14 @@
 server:
-  port: 8080
+  port: 7172
 
 spring:
   application:
-    name: app-gateway
-  data:
-    mongodb:
-      username: mongoUser
-      password: mongoPass
-      host: localhost
-      port: 27017
-      database: app
-      authentication-database: admin
+    name: app-gateway-test
+  datasource:
+    url: jdbc:h2:mem:gatewayDB
+    driverClassName: org.h2.Driver
+    username: sa
+    password: anypass
 
 
 management:
