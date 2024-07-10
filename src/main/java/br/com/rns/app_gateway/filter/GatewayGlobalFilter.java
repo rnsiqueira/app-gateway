@@ -32,7 +32,7 @@ public class GatewayGlobalFilter implements GlobalFilter, Ordered {
             ipAddress = request.getRemoteAddress().getAddress().getHostAddress();
         }
         var monitoringData = new MonitoringData(ipAddress,
-                request.getHeaders().getFirst("user-agent"), request.getURI());
+                request.getHeaders().getFirst("user-agent"), request.getURI(), request.getMethod());
 
         logger.info(String.format("persisting request data in database: %s", monitoringData));
         try {

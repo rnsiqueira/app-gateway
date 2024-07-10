@@ -33,6 +33,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	testImplementation("com.h2database:h2:2.2.224")
+	testImplementation("io.rest-assured:spring-mock-mvc:5.3.1")
 
 }
 

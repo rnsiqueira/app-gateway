@@ -3,20 +3,26 @@ package br.com.rns.app_gateway.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpMethod;
+
+import java.util.Objects;
 
 @Document("RequestDatail")
 public class RequestDatail {
+
 
     @Id
     private String id;
     private String hostAddress;
     private String agent;
     private String uri;
+    private HttpMethod method;
 
-    public RequestDatail(String hostAddress, String agent, String uri) {
+    public RequestDatail(String hostAddress, String agent, String uri, HttpMethod method) {
         this.hostAddress = hostAddress;
         this.agent = agent;
         this.uri = uri;
+        this.method = Objects.isNull(method) ? null : method;
     }
 
 
@@ -52,6 +58,14 @@ public class RequestDatail {
         this.uri = uri;
     }
 
+    public HttpMethod getMethod() {
+        return method;
+    }
+
+    public void setMethod(HttpMethod method) {
+        this.method = method;
+    }
+
     @Override
     public String toString() {
         return "RequestDatail{" +
@@ -59,6 +73,7 @@ public class RequestDatail {
                 ", hostAddress='" + hostAddress + '\'' +
                 ", agent='" + agent + '\'' +
                 ", uri='" + uri + '\'' +
+                ", method='" + method + '\'' +
                 '}';
     }
 }

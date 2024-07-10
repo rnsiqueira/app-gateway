@@ -7,6 +7,6 @@ public class RequestFactory {
 
 
     public static RequestDatail createRequestDatail(MonitoringData monitoringData) {
-        return new RequestDatail(monitoringData.hostAddress(), monitoringData.agent(), monitoringData.uri().toString());
+        return new RequestDatail(monitoringData.hostAddress(), monitoringData.agent(), monitoringData.uri().toString(), monitoringData.method());
     }
 }
